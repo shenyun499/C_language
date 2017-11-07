@@ -1,0 +1,33 @@
+#include<stdio.h>
+main()
+{
+	int a,b,i,t1,t2;
+	printf("please enter a,b:");
+	scanf("%d%d",&a,&b);
+	t1=a*b;
+	if(a>b)
+	{
+	  for(i=a;i>0;i--)
+	  if(t1%i==0&&t1>i)
+	     t1=i;
+	  for(i=a;i>0;i--)
+	  if(a%i==0&&b%i==0)
+	  {
+	     t2=i;
+	     break;
+      }
+    }
+      else
+      	  {
+	  for(i=b;i>0;i--)
+	  if(t1%i==0&&t1>i)
+	     t1=i;
+	  for(i=b;i>0;i--)
+	  if(a%i==0&&b%i==0)
+	  {
+	     t2=i;
+	     break;
+      }
+         }
+      printf("%最大公倍数是%d\t最小公约数是%d\n",t1,t2);
+}
