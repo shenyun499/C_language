@@ -1,0 +1,152 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+int* setShuZu();										/*动态数组创建的声明*/
+void output(int *p);									/*输出函数声明*/
+void find(int *p);										/*查找函数声明*/
+void _delete(int *p);									/*删除函数声明*/
+void input(int *p);										/*插入函数声明*/
+//n是指需要创建的数组长度
+int n;
+//分别用来记录是否成功进行删除、插入
+char sign1='1',sign2='1';													
+void main()
+{
+//指向创建好的动态指针数组,chooser为输入选项
+	int *a,chooser;
+//用来作退出的判断符
+	char sign[5]="yes";									
+	a=setShuZu();										/*调用函数创建动态数组*/
+	while(strcmp(sign,"yes")==0)
+	{
+		printf("请输入需要对数组的操作\n");
+		printf("1、打印数组\t\t2、查找元素\t\t3、删除元素\t\t4、插入元素\n");
+		printf("输入为:");
+		scanf("%d",&chooser);
+		switch(chooser)
+		{
+			case 1:output(a);
+				break;
+
+			case 2:	find(a);
+				break;
+
+			case 3:_delete(a);
+				if(sign1=='0')
+				{
+					printf("删除后的数组为:");
+					output(a);
+				}
+				break;
+
+			case 4:input(a);
+				if(sign2=='0')
+				{
+					printf("插入后的数组为:");
+					output(a);
+				}
+				break;
+
+			default:printf("输入有误！\n");
+				break;
+		}
+		printf("继续请输入\"yes\"，否则退出！\n");	
+		scanf("%s",sign);
+		printf("---------------------------------------------------------------------------------------\n");
+	}
+//释放堆中的内存
+	free(a);
+}
+
+//创建动态数组并初始化
+int* setShuZu()
+{
+	printf("请输入需要创建的数组长度:");
+	scanf("%d",&n);						
+	int *temp=(int*)malloc(n*sizeof(int));				/*申请n个int类型的空间*/
+	printf("请输入%d个数组元素:",n);
+	for(int i=0;i<n;i++)
+		scanf("%d",&temp[i]);							/*数组初始化*/
+	return temp; 
+ }
+
+//打印函数
+void output(int *p)
+{
+	for(int i=0;i<n;i++)
+		printf("%d  ",p[i]);							/*打印动态数组*/
+	printf("\n");
+}
+
+//查找函数
+void find(int *p)
+{
+	int num,i=0;											/*num是需要查找的元素的值*/
+	printf("请输入需要查找的数:");
+	scanf("%d",&num);
+	for(;i<n;i++)
+		if(num==p[i])
+		{
+			printf("你查找的数在第%d位\n",i+1);
+			break;
+		}
+	if(i==n)											/*说明查找的数不存在*/	
+		printf("查找失败，查找的元素不存在！\n");
+}
+
+//删除函数
+void _delete(int *p)
+{
+	int w;												/*w是指需要删除位置的数*/
+	printf("请输入需要删除的位置:");
+	scanf("%d",&w);
+	if(n==1)
+		printf("删除失败，数组只有一个元素");
+	else
+	{
+		if(w<=n)
+		{
+			sign1='0';
+			for(int i=0;i<n;i++)
+			if(i==w-1)									/*找到需要删除的位置*/
+			{
+				int j=i;
+				for(;j<n-1;j++)							/*从被删除的位置开始往前移动*/
+					p[j]=p[j+1];
+				p=(int*)realloc(p,(--n)*sizeof(int));	/*数组长度减1,并记录n值*/
+			}
+		} else{
+			printf("删除失败，删除的位置不存在！\n");
+			sign1='1';
+		}
+	}
+}
+
+//插入函数
+void input(int *p)
+{
+	int w,num;											/*在w位置之前插入一个元素，num是指要插入的元素*/
+	printf("请输入需要插入的位置:");
+	scanf("%d",&w);
+	if(w<=(n+1))
+	{
+		sign2='0';
+		printf("插入的元素为:");
+		scanf("%d",&num);
+		p=(int*)realloc(p,(++n)*sizeof(int));				/*数组长度加1,并记录n值*/
+		for(int i=0;i<n;i++)
+		{
+			if(w==(i+1))
+			{
+				for(int j=n-1;j>i;j--)
+					p[j]=p[j-1];
+				p[i]=num;								/*插入元素num*/
+			}
+		}
+	}
+	else
+	{
+		printf("插入失败，插入位置不对");
+		sign2='1';
+	}
+}
