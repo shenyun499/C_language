@@ -8,70 +8,72 @@ typedef struct dat {
 	struct dat *next;
 }sqQueue;
 
-//¶ÓÍ·ºÍ¶ÓÎ²Ö¸Õë 
+//é˜Ÿå¤´å’Œé˜Ÿå°¾æŒ‡é’ˆ 
 typedef struct {
-	sqQueue *front;	//¶ÓÍ·Ö¸Õë 
-	sqQueue *rear;	//¶ÓÎ²Ö¸Õë 
+	sqQueue *front;	//é˜Ÿå¤´æŒ‡é’ˆ 
+	sqQueue *rear;	//é˜Ÿå°¾æŒ‡é’ˆ 
 }sqQueueP;
 
-//³õÊ¼»¯¿Õ¶Ó
+//åˆå§‹åŒ–ç©ºé˜Ÿ
 void InitQueue(sqQueueP *sq) {
-	sq->front = sq->rear = (sqQueue*)malloc(sizeof(sqQueue));	//ÉêÇëÍ·½áµã
+	sq->front = sq->rear = (sqQueue*)malloc(sizeof(sqQueue));	//ç”³è¯·å¤´ç»“ç‚¹
 	sq->rear->next = NULL; 
 	sq->front->next = NULL;
 }
 
-//½¨Á¢¶ÓÁĞ 
+//å»ºç«‹é˜Ÿåˆ— 
 void CreateQueue(sqQueueP *sq) {
-	int data;			//¶ÓÁĞµÄÔªËØ 
+	int data;			//é˜Ÿåˆ—çš„å…ƒç´  
 	sqQueue *p; 	
-	printf("ÇëÊäÈë¶ÓÁĞÔªËØ:");
+	printf("è¯·è¾“å…¥é˜Ÿåˆ—å…ƒç´ :");
 	scanf("%d",&data);
 	while (data != 0) {
 		p = (sqQueue*)malloc(sizeof(sqQueue));
 		sq->rear->next = p;
 		sq->rear = p;
 		sq->rear->next = NULL;
-		if(p) 
+		if(p) {
 			sq->rear->data = data;	
+		}
 		scanf("%d",&data);
 	}
 }
 
-//ÔªËØÈë¶Ó 
+//å…ƒç´ å…¥é˜Ÿ 
 void InQueue(sqQueueP *sq) {
 	sqQueue *p;
 	p = (sqQueue*)malloc(sizeof(sqQueue));
 	int data;
-	printf("ÇëÊäÈëĞèÒªÈë¶ÓµÄÔªËØ:");
+	printf("è¯·è¾“å…¥éœ€è¦å…¥é˜Ÿçš„å…ƒç´ :");
 	scanf("%d",&data);
-	sq->rear->next = p;				//ĞÂÔö½áµã 
+	sq->rear->next = p;				//æ–°å¢ç»“ç‚¹ 
 	sq->rear = sq->rear->next;
-	sq->rear->data = data;			//¶ÓÎ²ĞÂÖµ
+	sq->rear->data = data;			//é˜Ÿå°¾æ–°å€¼
 	sq->rear->next = NULL;	   
 }
 
-//ÅĞ¶Ï¿Õ¶Ó
+//åˆ¤æ–­ç©ºé˜Ÿ
 int isEmpty(sqQueueP *sq) {
-	if (sq->front == sq->rear)
+	if (sq->front == sq->rear) {
 		return FALSE;
-	else
+	} else {
 		return OK;
+	}
 }
 
-//ÔªËØ³ö¶Ó
+//å…ƒç´ å‡ºé˜Ÿ
 void outputQueue(sqQueueP *sq) {
 	if (isEmpty(sq)) { 
 		sqQueueP *sq2;
-		sq2 = sq;		//±£´æ¶ÓÍ·Ö¸Õë 
+		sq2 = sq;		//ä¿å­˜é˜Ÿå¤´æŒ‡é’ˆ 
 		int data;
 		sq->front = sq->front->next; 
 		data = sq->front->data;
-		printf("³ö¶ÓÔªËØÎª:%d\n",data);
+		printf("å‡ºé˜Ÿå…ƒç´ ä¸º:%d\n",data);
 		free(sq2->front);
+	} else {
+		printf("é˜Ÿåˆ—ä¸ºç©º\n");
 	}
-	else
-		printf("¶ÓÁĞÎª¿Õ\n");
 }
 
 
@@ -82,22 +84,22 @@ main()
 	int chooser;
 	char sign[] = "yes";
 	while (!strcmp("yes",sign)) {
-		printf("1¡¢³õÊ¼»¯¿Õ¶Ó\t\t2¡¢´´½¨¶ÓÁĞ\t\t3¡¢ÔªËØ³ö¶Ó\t\t4¡¢ÔªËØÈë¶Ó\t\t5¡¢ÅĞ¿Õ¶Ó\n"); 
-		printf("ÇëÑ¡ÔñÄãÒªµÄ²Ù×÷:");
+		printf("1ã€åˆå§‹åŒ–ç©ºé˜Ÿ\t\t2ã€åˆ›å»ºé˜Ÿåˆ—\t\t3ã€å…ƒç´ å‡ºé˜Ÿ\t\t4ã€å…ƒç´ å…¥é˜Ÿ\t\t5ã€åˆ¤ç©ºé˜Ÿ\n"); 
+		printf("è¯·é€‰æ‹©ä½ è¦çš„æ“ä½œ:");
 		scanf("%d",&chooser);
 		switch (chooser) {
-			case 1:InitQueue(sq);break;			//³õÊ¼»¯¿Õ¶Ó
-			case 2:CreateQueue(sq);break;		//´´½¨¶ÓÁĞ 
+			case 1:InitQueue(sq);break;			//åˆå§‹åŒ–ç©ºé˜Ÿ
+			case 2:CreateQueue(sq);break;		//åˆ›å»ºé˜Ÿåˆ— 
 			case 3:outputQueue(sq);break;
 			case 4:InQueue(sq);break;
 			case 5:if(isEmpty(sq)) {
-				printf("¶ÓÁĞ²»Îª¿Õ\n");
-			} 
-				else
-					printf("¶ÓÁĞÎª¿Õ\n");
+				printf("é˜Ÿåˆ—ä¸ä¸ºç©º\n");
+			} else {
+				printf("é˜Ÿåˆ—ä¸ºç©º\n");
+			}
 			break;
 	}
-	printf("¼ÌĞø²Ù×÷ÇëÊäÈëyes,·ñÔòÍË³ö!\n");
+	printf("ç»§ç»­æ“ä½œè¯·è¾“å…¥yes,å¦åˆ™é€€å‡º!\n");
 	scanf("%s",sign);
 	}	
  } 
