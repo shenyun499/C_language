@@ -4,66 +4,69 @@
 #define ERROR 0
 #define MAXSIZE 64
 typedef int QElemType;
-typedef struct{
+typedef struct {
 	QElemType *base;
 	int front;
 	int rear;
 }SqQueue;
-int lnitQueue(SqQueue *Q){
-	Q->base=(QElemType*)malloc(MAXSIZE*sizeof(QElemType));
-	if(!Q->base) return ERROR;
-	Q->front=Q->rear=0;
-	return OK;
-}
-int EnQueue(SqQueue *Q,QElemType e){
-	if((Q->rear+1)%MAXSIZE==Q->front)
+int lnitQueue(SqQueue *Q) {
+	Q->base = (QElemType*)malloc(MAXSIZE*sizeof(QElemType));
+	if (!Q->base) {
 		return ERROR;
-	Q->base[Q->rear]=e;
-	Q->rear=(Q->rear+1)%MAXSIZE;
+	}
+	Q->front = Q->rear=0;
 	return OK;
 }
-int	DeQueue (SqQueue *Q,QElemType *e){
-	if(Q->front==Q->rear)
+int EnQueue(SqQueue *Q,QElemType e) {
+	if ((Q->rear+1) % MAXSIZE == Q->front) {
 		return ERROR;
-	*e=Q->base[Q->front];
-	Q->front=(Q->front+1)%MAXSIZE;
+	}
+	Q->base[Q->rear] = e;
+	Q->rear = (Q->rear+1) % MAXSIZE;
 	return OK;
 }
-int QueueLength(SqQueue Q){
-	return (Q.rear-Q.front+MAXSIZE)%MAXSIZE;
+int DeQueue (SqQueue *Q,QElemType *e) {
+	if (Q->front == Q->rear)
+		return ERROR;
+	*e = Q->base[Q->front];
+	Q->front = (Q->front+1) % MAXSIZE;
+	return OK;
 }
-void QueueTraverse(SqQueue Q){
+int QueueLength(SqQueue Q) {
+	return (Q.rear-Q.front+MAXSIZE) % MAXSIZE;
+}
+void QueueTraverse(SqQueue Q) {
 	int i,k;
-	k=QueueLength(Q);
-	for(i=1;i<=k;i++){
+	k = QueueLength(Q);
+	for (i = 1; i <= k; i++) {
 		printf("%d",Q.base[Q.front]);
-		Q.front=(Q.front+1)%MAXSIZE;
+		Q.front = (Q.front+1)%MAXSIZE;
 	}
 }
 main()
 {
 	int n,e,i;SqQueue q;
 	lnitQueue(&q);
-	printf("¸ÃÑ­»·¶ÓÁÐ×î¶à¿É´æ·Å%d¸öÔªËØ\n",MAXSIZE-1);
-	printf("ÇëÊäÈëÊý¾ÝÔªËØµÄ¸öÊýn \n");
+	printf("è¯¥å¾ªçŽ¯é˜Ÿåˆ—æœ€å¤šå¯å­˜æ”¾%dä¸ªå…ƒç´ \n",MAXSIZE-1);
+	printf("è¯·è¾“å…¥æ•°æ®å…ƒç´ çš„ä¸ªæ•°n \n");
 	scanf("%d",&n);
-	printf("\nÇëÊäÈë%d¸öÕûÊý\n",n);
-	for(i=1;i<=n;i++){
+	printf("\nè¯·è¾“å…¥%dä¸ªæ•´æ•°\n",n);
+	for (i = 1; i <= n; i++) {
 		scanf("%d",&e);
 		EnQueue(&q,e);
 	}
 	printf("q=");
 	QueueTraverse(q);
 		fflush(stdin);
-	printf("\nÇëÊäÈëÈë¶ÓÔªËØe\n");
+	printf("\nè¯·è¾“å…¥å…¥é˜Ÿå…ƒç´ e\n");
 	scanf("%d",&e);
 	EnQueue(&q,e);
 	printf("q=");
 	QueueTraverse(q);
 	fflush(stdin);
-	printf("\nÖ´ÐÐ³ö¶Ó²Ù×÷\n");
+	printf("\næ‰§è¡Œå‡ºé˜Ÿæ“ä½œ\n");
 	DeQueue(&q,&e);
-	printf("³ö¶ÓÔªËØÊÇ%d\n",e);
+	printf("å‡ºé˜Ÿå…ƒç´ æ˜¯%d\n",e);
 	printf("q=");
 	QueueTraverse(q);
 }
